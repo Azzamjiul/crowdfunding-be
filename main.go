@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 
 	"github.com/azzamjiul/bwastartup/user"
@@ -18,19 +17,15 @@ func main() {
 		log.Fatal(err.Error())
 	}
 
-	fmt.Println("Connection to database is good")
+	userRepository := user.NewRepository(db)
+	userService := user.NewService(userRepository)
 
-	var users []user.User
-	length := len(users)
-	fmt.Println(length)
-
-	db.Find(&users)
-
-	length = len(users)
-	fmt.Println(length)
-
-	for _, user := range users {
-		fmt.Println(user.Name)
-		fmt.Println(user.Email)
+	userInput := user.RegisterUserInput{
+		Name:       "Agus",
+		Occupation: "Occupation",
+		Password:   "adminadmin",
+		Email:      "Agus@email.com",
 	}
+
+	userService.RegisterUser(userInput)
 }
